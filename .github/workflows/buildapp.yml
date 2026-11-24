@@ -85,18 +85,38 @@ jobs:
               env:
                 THEOS: ${{ github.workspace }}/theos
 
+            
             - name: Prepare Instagram IPA
               run: |
                 cd main
 
-                mkdir -p packages
-                wget "$Instagram_URL" --no-verbose -O packages/com.burbn.instagram.ipa
+                python3 -m pip install --upgrade gdown
 
-                ls -la packages
-                
+                mkdir -p packages
+
+                echo "Downloading Instagram IPA..."
+
+                gdown --fuzzy "$Instagram_URL" \
+                  -O packages/com.burbn.instagram.ipa
+
+                echo "Checking downloaded IPA..."
+
+                test -s packages/com.burbn.instagram.ipa
+
+                file packages/com.burbn.instagram.ipa
+
+                unzip -tq packages/com.burbn.instagram.ipa
+
+                unzip -Z1 packages/com.burbn.instagram.ipa | grep -m1 'Payload/.*\.app/Info.plist'
+
+                echo "Instagram IPA downloaded and validated successfully."
+
+                ls -lh packages/
+
               env:
                 THEOS: ${{ github.workspace }}/theos
                 Instagram_URL: ${{ inputs.decrypted_instagram_url }}
+
 
             - name: Get SCInsta Version
               id: scinsta_version
