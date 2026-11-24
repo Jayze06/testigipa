@@ -90,13 +90,17 @@ jobs:
               run: |
                 cd main
 
-                python3 -m pip install --upgrade gdown
+                echo "Creating Python virtual environment..."
+                python3 -m venv .venv
+
+                echo "Installing gdown..."
+                .venv/bin/python -m pip install --upgrade pip gdown
 
                 mkdir -p packages
 
                 echo "Downloading Instagram IPA..."
 
-                gdown --fuzzy "$Instagram_URL" \
+                .venv/bin/gdown --fuzzy "$Instagram_URL" \
                   -O packages/com.burbn.instagram.ipa
 
                 echo "Checking downloaded IPA..."
