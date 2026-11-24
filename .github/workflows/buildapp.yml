@@ -100,7 +100,7 @@ jobs:
 
                 echo "Downloading Instagram IPA..."
 
-                .venv/bin/gdown --fuzzy "$Instagram_URL" \
+                .venv/bin/gdown "$Instagram_URL" \
                   -O packages/com.burbn.instagram.ipa
 
                 echo "Checking downloaded IPA..."
